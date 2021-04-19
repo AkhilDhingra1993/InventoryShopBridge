@@ -1,0 +1,12 @@
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.dll.config
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.dll
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.pdb
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\EntityFramework.dll
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\EntityFramework.xml
+D:\GIT\ShopBridge\ShopBridgeDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csprojAssemblyReference.cache
+D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.CoreCompileInputs.cache
+D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.CopyComplete
+D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.dll
+D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.pdb
