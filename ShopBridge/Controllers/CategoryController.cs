@@ -8,8 +8,13 @@ using System.Web.Http;
 
 namespace ShopBridge.Controllers
 {
+    /// <summary>
+    /// Category API
+    /// </summary>
     public class CategoryController : ApiController
     {
+        // Fetching the List of Category
+        // GET api/Category
         [HttpGet]
         public IEnumerable<Category> LoadAllCategories()
         {
@@ -18,22 +23,35 @@ namespace ShopBridge.Controllers
                 return inventoryDBEntities.Categories.ToList();
             }
         }
+
+        // Fetching the Category on the basis of ID
+        // GET api/Category/1
         [HttpGet]
         public HttpResponseMessage LoadAllCategoriesByID(int ID)
         {
-            using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
+            try
             {
-                var entity = inventoryDBEntities.Categories.FirstOrDefault(Cat => Cat.Id == ID);
-                if (entity != null)
+                using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entity);
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID =" + ID.ToString() + " not exists!");
+                    var entity = inventoryDBEntities.Categories.FirstOrDefault(Cat => Cat.Id == ID);
+                    if (entity != null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                    }
+                    else
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID =" + ID.ToString() + " not found!");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+
+            }
         }
+        // Creating a Category
+        // POST api/Category
         [HttpPost]
         public HttpResponseMessage CreateCategory([FromBody] Category category)
         {
@@ -54,31 +72,9 @@ namespace ShopBridge.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
         }
-        [HttpDelete]
-        public HttpResponseMessage DeleteCategoryByID(int ID)
-        {
-            try
-            {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
-                {
-                    var entity = inventoryEntity.Categories.FirstOrDefault(Prod => Prod.Id == ID);
-                    if (entity == null)
-                    {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID " + ID.ToString() + " not found to be deleted!");
-                    }
-                    else
-                    {
-                        inventoryEntity.Categories.Remove(entity);
-                        inventoryEntity.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
-        }
+
+        //Modifying a Category on the basis of ID
+        // PUT api/Category/5
         [HttpPut]
         public HttpResponseMessage ModifyCategories(int ID, [FromBody] Category category)
         {
@@ -99,6 +95,34 @@ namespace ShopBridge.Controllers
                     }
                 }
 
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        //Deleting a Category on the basis of ID
+        // DELETE api/Category/3
+        [HttpDelete]
+        public HttpResponseMessage DeleteCategoryByID(int ID)
+        {
+            try
+            {
+                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                {
+                    var entity = inventoryEntity.Categories.FirstOrDefault(Prod => Prod.Id == ID);
+                    if (entity == null)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID " + ID.ToString() + " not found!");
+                    }
+                    else
+                    {
+                        inventoryEntity.Categories.Remove(entity);
+                        inventoryEntity.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.OK, "Category with ID = " + ID.ToString() + " deleted");
+                    }
+                }
             }
             catch (Exception ex)
             {

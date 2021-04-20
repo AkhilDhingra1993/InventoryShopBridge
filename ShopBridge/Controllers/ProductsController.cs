@@ -8,8 +8,13 @@ using System.Web.Http;
 
 namespace ShopBridge.Controllers
 {
+    /// <summary>
+    /// Products API 
+    /// </summary>
     public class ProductsController : ApiController
     {
+        // Fetching the List of Products
+        // GET api/Products
         [HttpGet]
         public IEnumerable<Product> LoadAllProducts()
         {
@@ -18,22 +23,36 @@ namespace ShopBridge.Controllers
                 return inventoryDBEntities.Products.ToList();
             }
         }
+
+        // Fetching the Product on the basis of ID
+        // GET api/Products/1
         [HttpGet]
         public HttpResponseMessage LoadAllProductsByID(int ID)
         {
-            using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
+            try
             {
-                var entity = inventoryDBEntities.Products.FirstOrDefault(Prod => Prod.Id == ID);
-                if (entity != null)
+                using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entity);
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID =" + ID.ToString() + " not exists!");
+                    var entity = inventoryDBEntities.Products.FirstOrDefault(Prod => Prod.Id == ID);
+                    if (entity != null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                    }
+                    else
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID =" + ID.ToString() + "  not found!");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
         }
+
+        // Creating a Product
+        // POST api/Products
         [HttpPost]
         public HttpResponseMessage CreateProducts([FromBody] Product product)
         {
@@ -54,31 +73,9 @@ namespace ShopBridge.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
         }
-        [HttpDelete]
-        public HttpResponseMessage DeleteProductsByID(int ID)
-        {
-            try
-            {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
-                {
-                    var entity = inventoryEntity.Products.FirstOrDefault(Prod => Prod.Id == ID);
-                    if (entity == null)
-                    {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID " + ID.ToString() + " not found to be deleted!");
-                    }
-                    else
-                    {
-                        inventoryEntity.Products.Remove(entity);
-                        inventoryEntity.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
-        }
+
+        //Modifying a product on the basis of ID
+        // PUT api/Products/5
         [HttpPut]
         public HttpResponseMessage ModifyProducts(int ID, [FromBody] Product product)
         {
@@ -109,6 +106,34 @@ namespace ShopBridge.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
         }
-    }
 
+        //Deleting a Product on the basis of ID
+        // DELETE api/Products/3
+        [HttpDelete]
+        public HttpResponseMessage DeleteProductsByID(int ID)
+        {
+            try
+            {
+                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                {
+                    var entity = inventoryEntity.Products.FirstOrDefault(Prod => Prod.Id == ID);
+                    if (entity == null)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID = " + ID.ToString() + " not found!");
+                    }
+                    else
+                    {
+                        inventoryEntity.Products.Remove(entity);
+                        inventoryEntity.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.OK,"Prodcut with ID = " + ID.ToString() +" deleted");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+    }
 }
