@@ -7,19 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace ShopBridgeDataAccess
 {
 
     public partial class Product
     {
+
         public int Id { get; set; }
+        [Required]
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
+        [Required]
         public int Quantity_Available { get; set; }
+        [Required]
         public decimal Price { get; set; }
         public byte[] Product_Image { get; set; }
+        [Required]
         public int Category_Id { get; set; }
-    
         public virtual Category Category { get; set; }
     }
 }

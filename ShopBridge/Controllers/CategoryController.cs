@@ -57,15 +57,23 @@ namespace ShopBridge.Controllers
         {
             try
             {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                if (ModelState.IsValid)
                 {
-                    inventoryEntity.Categories.Add(category);
-                    inventoryEntity.SaveChanges();
+                    using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                    {
+                        inventoryEntity.Categories.Add(category);
+                        inventoryEntity.SaveChanges();
 
-                    var message = Request.CreateResponse(HttpStatusCode.Created, category);
-                    message.Headers.Location = new Uri(Request.RequestUri + category.Id.ToString());
-                    return message;
+                        var message = Request.CreateResponse(HttpStatusCode.Created, category);
+                        message.Headers.Location = new Uri(Request.RequestUri + category.Id.ToString());
+                        return message;
+                    }
                 }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
             }
             catch (Exception ex)
             {
@@ -80,20 +88,28 @@ namespace ShopBridge.Controllers
         {
             try
             {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                if (ModelState.IsValid)
                 {
-                    var entity = inventoryEntity.Categories.FirstOrDefault(cat => cat.Id == ID);
-                    if (entity == null)
+                    using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID = " + ID.ToString() + " not found!");
-                    }
-                    else
-                    {
-                        entity.Category_Name = category.Category_Name;
-                        inventoryEntity.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        var entity = inventoryEntity.Categories.FirstOrDefault(cat => cat.Id == ID);
+                        if (entity == null)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with ID = " + ID.ToString() + " not found!");
+                        }
+                        else
+                        {
+                            entity.Category_Name = category.Category_Name;
+                            inventoryEntity.SaveChanges();
+                            return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        }
                     }
                 }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
 
             }
             catch (Exception ex)

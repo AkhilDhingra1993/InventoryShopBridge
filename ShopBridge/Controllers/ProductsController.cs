@@ -31,18 +31,26 @@ namespace ShopBridge.Controllers
         {
             try
             {
-                using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
+                if (ModelState.IsValid)
                 {
-                    var entity = inventoryDBEntities.Products.FirstOrDefault(Prod => Prod.Id == ID);
-                    if (entity != null)
+                    using (InventoryDBEntities inventoryDBEntities = new InventoryDBEntities())
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
-                    }
-                    else
-                    {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID =" + ID.ToString() + "  not found!");
+                        var entity = inventoryDBEntities.Products.FirstOrDefault(Prod => Prod.Id == ID);
+                        if (entity != null)
+                        {
+                            return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        }
+                        else
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID =" + ID.ToString() + "  not found!");
+                        }
                     }
                 }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
             }
             catch (Exception ex)
             {
@@ -58,15 +66,23 @@ namespace ShopBridge.Controllers
         {
             try
             {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                if (ModelState.IsValid)
                 {
-                    inventoryEntity.Products.Add(product);
-                    inventoryEntity.SaveChanges();
+                    using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                    {
+                        inventoryEntity.Products.Add(product);
+                        inventoryEntity.SaveChanges();
 
-                    var message = Request.CreateResponse(HttpStatusCode.Created, product);
-                    message.Headers.Location = new Uri(Request.RequestUri + product.Id.ToString());
-                    return message;
+                        var message = Request.CreateResponse(HttpStatusCode.Created, product);
+                        message.Headers.Location = new Uri(Request.RequestUri + product.Id.ToString());
+                        return message;
+                    }
                 }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
             }
             catch (Exception ex)
             {
@@ -81,23 +97,31 @@ namespace ShopBridge.Controllers
         {
             try
             {
-                using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
+                if (ModelState.IsValid)
                 {
-                    var entity = inventoryEntity.Products.FirstOrDefault(prod => prod.Id == ID);
-                    if (entity == null)
+                    using (InventoryDBEntities inventoryEntity = new InventoryDBEntities())
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID = " + ID.ToString() + " not found!");
+                        var entity = inventoryEntity.Products.FirstOrDefault(prod => prod.Id == ID);
+                        if (entity == null)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Product with ID = " + ID.ToString() + " not found!");
+                        }
+                        else
+                        {
+                            entity.ProductName = product.ProductName;
+                            entity.ProductDescription = product.ProductDescription;
+                            entity.Quantity_Available = product.Quantity_Available;
+                            entity.Price = product.Price;
+                            entity.Category_Id = product.Category_Id;
+                            inventoryEntity.SaveChanges();
+                            return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        }
                     }
-                    else
-                    {
-                        entity.ProductName = product.ProductName;
-                        entity.ProductDescription = product.ProductDescription;
-                        entity.Quantity_Available = product.Quantity_Available;
-                        entity.Price = product.Price;
-                        entity.Category_Id = product.Category_Id;
-                        inventoryEntity.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
-                    }
+
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
                 }
 
             }
@@ -125,7 +149,7 @@ namespace ShopBridge.Controllers
                     {
                         inventoryEntity.Products.Remove(entity);
                         inventoryEntity.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK,"Prodcut with ID = " + ID.ToString() +" deleted");
+                        return Request.CreateResponse(HttpStatusCode.OK, "Prodcut with ID = " + ID.ToString() + " deleted");
                     }
                 }
             }
