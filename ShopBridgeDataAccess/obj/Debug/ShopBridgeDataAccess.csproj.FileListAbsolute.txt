@@ -10,3 +10,15 @@ D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.Cor
 D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.CopyComplete
 D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.dll
 D:\GIT\ShopBridge\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.pdb
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.dll.config
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.dll
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\ShopBridgeDataAccess.pdb
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\EntityFramework.dll
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\EntityFramework.xml
+D:\GIT\Clone\ShopBridgeDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+D:\GIT\Clone\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csprojAssemblyReference.cache
+D:\GIT\Clone\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.CoreCompileInputs.cache
+D:\GIT\Clone\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.csproj.CopyComplete
+D:\GIT\Clone\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.dll
+D:\GIT\Clone\ShopBridgeDataAccess\obj\Debug\ShopBridgeDataAccess.pdb
